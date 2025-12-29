@@ -102,8 +102,8 @@ const Login: React.FC<LoginProps> = ({ onLogin, isDarkMode, toggleTheme }) => {
         </div>
 
         {/* Rodapé - Pequeno para caber na tela sem scroll */}
-        <p className="text-center mt-6 text-[10px] text-slate-400 dark:text-slate-600 font-bold uppercase tracking-[0.2em] shrink-0">
-          &copy; 2024 Fly Per Points • Gestão em Viagens
+        <p className="text-center mt-6 text-[10px] text-slate-400 dark:text-slate-600 font-bold uppercase tracking-[0.2em] shrink-0 whitespace-nowrap">
+          &copy; 2026 Fly Per Points • Gestão em Viagens
         </p>
       </div>
     </div>

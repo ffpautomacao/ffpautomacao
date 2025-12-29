@@ -185,8 +185,8 @@ const App: React.FC = () => {
         <footer className="mt-auto px-10 py-10 text-center border-t border-slate-200 dark:border-slate-800/50">
           <div className="flex flex-col items-center gap-4">
             <div className="h-[2px] w-12 bg-slate-200 dark:bg-slate-800"></div>
-            <p className="text-[11px] text-slate-400 dark:text-slate-500 font-bold uppercase tracking-[0.4em]">
-              &copy; 2024 Fly Per Points • Gestão em Viagens
+            <p className="text-[11px] text-slate-400 dark:text-slate-500 font-bold uppercase tracking-[0.4em] whitespace-nowrap">
+              &copy; 2026 Fly Per Points • Gestão em Viagens
             </p>
           </div>
         </footer>
