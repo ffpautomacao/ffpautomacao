@@ -18,8 +18,7 @@ const App: React.FC = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
 
-  const logoLight = "https://raw.githubusercontent.com/ffpautomacao/ffpautomacao/fbd05d8cf9e69e8980904af8505adfdf15d9bf07/Light.png";
-  const logoDark = "https://raw.githubusercontent.com/ffpautomacao/ffpautomacao/fbd05d8cf9e69e8980904af8505adfdf15d9bf07/Black.png";
+  const userIcon = "https://raw.githubusercontent.com/ffpautomacao/ffpautomacao/c7284b7ff4773c0bc4e9778e0ed2e66124f3df6b/Icone%20Flyper.png";
 
   useEffect(() => {
     if (isDarkMode) {
@@ -115,10 +114,10 @@ const App: React.FC = () => {
       <main className="flex-1 lg:ml-72 w-full flex flex-col min-w-0 max-w-full">
         {/* Header */}
         <header className="h-20 md:h-24 bg-white/80 dark:bg-brand-navy/80 backdrop-blur-xl sticky top-0 z-40 px-4 md:px-10 flex items-center justify-between border-b border-slate-200 dark:border-slate-800">
-          <div className="flex items-center space-x-3 md:space-x-5">
+          <div className="flex items-center space-x-2 md:space-x-5 shrink-0">
             <button 
               onClick={() => setIsSidebarOpen(true)}
-              className="lg:hidden p-2.5 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-2xl transition-colors"
+              className="lg:hidden p-2 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-colors"
             >
               <Menu size={22} />
             </button>
@@ -127,26 +126,26 @@ const App: React.FC = () => {
               <p className="text-lg md:text-xl font-bold text-slate-900 dark:text-white leading-tight">{mockClientData.name}</p>
             </div>
             <div className="sm:hidden">
-              <p className="text-sm font-bold text-slate-900 dark:text-white leading-tight">{mockClientData.name.split(' ')[0]}</p>
+              <p className="text-sm font-bold text-slate-900 dark:text-white leading-tight truncate max-w-[80px]">{mockClientData.name}</p>
             </div>
           </div>
 
-          <div className="flex items-center space-x-2 md:space-x-6">
-            <div className="flex items-center bg-slate-100 dark:bg-slate-800/40 px-3 md:px-5 py-2 rounded-xl md:rounded-2xl border border-slate-200 dark:border-slate-700/50 transition-all focus-within:ring-4 focus-within:ring-brand-red/10 w-24 xs:w-32 md:w-64 xl:w-80">
+          <div className="flex flex-1 items-center justify-end space-x-2 md:space-x-6">
+            <div className="flex items-center bg-slate-100 dark:bg-slate-800/40 px-3 md:px-5 py-2 rounded-xl md:rounded-2xl border border-slate-200 dark:border-slate-700/50 transition-all focus-within:ring-4 focus-within:ring-brand-red/10 flex-1 md:flex-none max-w-[400px]">
               <Search size={16} className="text-slate-400 mr-2" />
               <input 
                 type="text" 
                 placeholder="Pesquisar..." 
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="bg-transparent border-none outline-none text-[10px] md:text-sm w-full dark:text-white placeholder:text-slate-400 font-bold"
+                className="bg-transparent border-none outline-none text-[12px] md:text-sm w-full dark:text-white placeholder:text-slate-400 font-bold"
               />
             </div>
 
-            <div className="flex items-center space-x-1 md:space-x-4">
+            <div className="flex items-center space-x-1 md:space-x-4 shrink-0">
               <button 
                 onClick={() => setIsDarkMode(!isDarkMode)}
-                className="p-1.5 md:p-3 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl md:rounded-2xl transition-all"
+                className="hidden xs:block p-1.5 md:p-3 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl md:rounded-2xl transition-all"
                 aria-label="Alternar Tema"
               >
                 {isDarkMode ? <Sun size={18} /> : <Moon size={18} />}
@@ -159,10 +158,10 @@ const App: React.FC = () => {
 
               <div className="h-8 w-[1px] bg-slate-200 dark:bg-slate-800 hidden md:block"></div>
 
-              {/* Ícone agora com a cor vermelha da paleta do projeto */}
+              {/* Ícone substituído pela imagem solicitada */}
               <div className="flex items-center space-x-3 group cursor-pointer p-0.5 md:p-1 rounded-2xl transition-colors hover:bg-slate-100 dark:hover:bg-slate-800/50">
-                <div className="w-8 h-8 md:w-11 md:h-11 rounded-lg md:rounded-[1.1rem] bg-brand-red text-white flex items-center justify-center font-black text-[10px] md:text-base shadow-lg shadow-brand-red/20 glow-red">
-                  {mockClientData.name.split(' ').map(n => n[0]).join('')}
+                <div className="w-8 h-8 md:w-11 md:h-11 rounded-lg md:rounded-[1.1rem] bg-brand-navy dark:bg-slate-800 border border-slate-200 dark:border-slate-700 overflow-hidden shadow-lg">
+                  <img src={userIcon} alt="Flyper Icon" className="w-full h-full object-cover" />
                 </div>
               </div>
             </div>
@@ -172,29 +171,19 @@ const App: React.FC = () => {
         {/* View Content */}
         <div className="flex-1 p-4 md:p-10 max-w-[1600px] mx-auto w-full no-overflow-x">
           
-          {/* Logo Mobile - Traço vermelho removido conforme solicitado */}
-          <div className="lg:hidden flex flex-col items-center justify-center mb-10 animate-in fade-in slide-in-from-top-4 duration-700">
-             <img 
-               src={isDarkMode ? logoDark : logoLight} 
-               alt="Fly Per Points" 
-               className="h-20 md:h-32 w-auto object-contain transition-transform"
-             />
-          </div>
-
-          {/* Cabeçalho de View - Centralizado no Mobile e Tablet (md e lg) */}
-          <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-8 md:mb-12 gap-4 md:gap-6 items-center lg:items-start text-center lg:text-left">
-            <div className="animate-in slide-in-from-left duration-500 flex flex-col items-center lg:items-start">
+          {/* Cabeçalho de View - Alinhado à esquerda no Mobile/Tablet e simplificado */}
+          <div className="flex flex-col mb-8 md:mb-12 gap-4 items-start text-left">
+            <div className="animate-in slide-in-from-left duration-500 flex flex-col items-start">
               <div className="flex items-center gap-2 mb-2">
-                <span className="w-6 md:w-8 h-[2px] bg-brand-red"></span>
+                <span className="w-8 h-[2px] bg-brand-red"></span>
                 <p className="text-[9px] md:text-[10px] font-bold text-brand-red uppercase tracking-[0.3em]">
-                  GESTÃO DE {viewTitles[currentView].toUpperCase()}
+                  {viewTitles[currentView].toUpperCase()}
                 </p>
-                <span className="w-6 lg:hidden h-[2px] bg-brand-red"></span>
               </div>
               <h1 className="text-2xl md:text-4xl font-bold text-slate-900 dark:text-white tracking-tight">
-                {currentView === View.OVERVIEW ? 'Visão Executiva' : 
-                 currentView === View.TRIPS ? 'Meus Itinerários' : 
-                 currentView === View.MILES ? 'Ativos de Fidelidade' : viewTitles[currentView]}
+                {currentView === View.OVERVIEW ? 'Visão Geral' : 
+                 currentView === View.TRIPS ? 'Viagens' : 
+                 currentView === View.MILES ? 'Milhas & Pontos' : viewTitles[currentView]}
               </h1>
             </div>
           </div>
