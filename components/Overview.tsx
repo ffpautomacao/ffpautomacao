@@ -53,9 +53,9 @@ const Overview: React.FC<OverviewProps> = ({ data }) => {
         <div className="space-y-1">
           <h2 className="text-2xl font-black text-slate-900 dark:text-white tracking-tighter flex items-center gap-2">
             <Zap className="text-brand-red fill-brand-red" size={24} />
-            Performance Comparativa
+            Performance Corporativa
           </h2>
-          <p className="text-[10px] text-slate-400 dark:text-slate-500 font-bold uppercase tracking-[0.2em]">Gestão FPP vs. Cenário Comum</p>
+          <p className="text-[10px] text-slate-400 dark:text-slate-500 font-bold uppercase tracking-[0.2em]">Comparativo: FPP vs. Mercado</p>
         </div>
 
         <div className="flex items-center gap-2">
@@ -80,11 +80,11 @@ const Overview: React.FC<OverviewProps> = ({ data }) => {
       <div className="flex items-center gap-6 mb-6 px-1">
         <div className="flex items-center gap-2">
           <div className="w-3 h-3 rounded-full bg-brand-red"></div>
-          <span className="text-[10px] font-black uppercase tracking-widest text-slate-900 dark:text-white">FPP Ativa</span>
+          <span className="text-[10px] font-black uppercase tracking-widest text-slate-900 dark:text-white">Nosso Serviço (FPP)</span>
         </div>
         <div className="flex items-center gap-2">
           <div className="w-3 h-3 rounded-full bg-slate-300 dark:bg-slate-600"></div>
-          <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Padrão</span>
+          <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Sem FPP</span>
         </div>
       </div>
       
@@ -98,7 +98,7 @@ const Overview: React.FC<OverviewProps> = ({ data }) => {
             >
               <defs>
                 <linearGradient id="gradientFPP" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#E34248" stopOpacity={0.2}/>
+                  <stop offset="5%" stopColor="#E34248" stopOpacity={0.4}/>
                   <stop offset="95%" stopColor="#E34248" stopOpacity={0}/>
                 </linearGradient>
               </defs>
@@ -127,14 +127,14 @@ const Overview: React.FC<OverviewProps> = ({ data }) => {
                 itemStyle={{ fontSize: '12px', fontWeight: '800' }}
                 labelStyle={{ fontSize: '9px', fontWeight: '900', color: '#94a3b8', marginBottom: '4px' }}
               />
-              <Bar dataKey="withoutFPP" barSize={30} fill="#94a3b8" opacity={0.15} radius={[4, 4, 0, 0]} />
+              <Bar dataKey="withoutFPP" barSize={25} fill="#94a3b8" opacity={0.3} radius={[4, 4, 0, 0]} />
               <Area 
                 type="monotone" 
                 dataKey="withFPP" 
                 stroke="#E34248" 
-                strokeWidth={4}
+                strokeWidth={5}
                 fill="url(#gradientFPP)" 
-                activeDot={{ r: 6, strokeWidth: 0, fill: '#E34248' }}
+                activeDot={{ r: 7, strokeWidth: 0, fill: '#E34248' }}
               />
             </ComposedChart>
           </ResponsiveContainer>
@@ -156,7 +156,7 @@ const Overview: React.FC<OverviewProps> = ({ data }) => {
           </div>
           <div className="h-8 w-[1px] bg-slate-100 dark:bg-slate-800"></div>
           <div>
-            <span className="text-[9px] text-slate-400 font-black uppercase tracking-widest block mb-1">Fator</span>
+            <span className="text-[9px] text-slate-400 font-black uppercase tracking-widest block mb-1">Fator de Economia</span>
             <p className="text-xl font-black text-brand-red">12.1x</p>
           </div>
         </div>
@@ -186,7 +186,7 @@ const Overview: React.FC<OverviewProps> = ({ data }) => {
         {metricCardsSection}
       </div>
 
-      {/* Em telas grandes (desktop), mantém a ordem original ou conforme preferência */}
+      {/* Em telas grandes (desktop) */}
       <div className="hidden lg:flex lg:flex-col lg:space-y-8">
         {metricCardsSection}
         {performanceSection}

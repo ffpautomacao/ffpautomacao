@@ -18,7 +18,8 @@ const App: React.FC = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
 
-  const userIcon = "https://raw.githubusercontent.com/ffpautomacao/ffpautomacao/c7284b7ff4773c0bc4e9778e0ed2e66124f3df6b/Icone%20Flyper.png";
+  // URL atualizada para a versão bem enquadrada do ícone de perfil
+  const userIcon = "https://raw.githubusercontent.com/ffpautomacao/ffpautomacao/3e20d0cf0fc0df20e9e02e1d5e8a511d5bba3793/Icone%20Flyper%20Perfil.png";
 
   useEffect(() => {
     if (isDarkMode) {
@@ -126,13 +127,13 @@ const App: React.FC = () => {
               <p className="text-lg md:text-xl font-bold text-slate-900 dark:text-white leading-tight">{mockClientData.name}</p>
             </div>
             <div className="sm:hidden">
-              <p className="text-sm font-bold text-slate-900 dark:text-white leading-tight truncate max-w-[80px]">{mockClientData.name}</p>
+              <p className="text-sm font-bold text-slate-900 dark:text-white leading-tight truncate max-w-[100px]">{mockClientData.name}</p>
             </div>
           </div>
 
-          <div className="flex flex-1 items-center justify-end space-x-2 md:space-x-6">
-            <div className="flex items-center bg-slate-100 dark:bg-slate-800/40 px-3 md:px-5 py-2 rounded-xl md:rounded-2xl border border-slate-200 dark:border-slate-700/50 transition-all focus-within:ring-4 focus-within:ring-brand-red/10 flex-1 md:flex-none max-w-[400px]">
-              <Search size={16} className="text-slate-400 mr-2" />
+          <div className="flex flex-1 items-center justify-end space-x-1 md:space-x-6 px-1">
+            <div className="flex items-center bg-slate-100 dark:bg-slate-800/40 px-3 md:px-5 py-2 rounded-xl md:rounded-2xl border border-slate-200 dark:border-slate-700/50 transition-all focus-within:ring-4 focus-within:ring-brand-red/10 flex-1 md:flex-none md:w-64 xl:w-80">
+              <Search size={16} className="text-slate-400 mr-1.5 md:mr-2" />
               <input 
                 type="text" 
                 placeholder="Pesquisar..." 
@@ -145,7 +146,7 @@ const App: React.FC = () => {
             <div className="flex items-center space-x-1 md:space-x-4 shrink-0">
               <button 
                 onClick={() => setIsDarkMode(!isDarkMode)}
-                className="hidden xs:block p-1.5 md:p-3 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl md:rounded-2xl transition-all"
+                className="p-1.5 md:p-3 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl md:rounded-2xl transition-all"
                 aria-label="Alternar Tema"
               >
                 {isDarkMode ? <Sun size={18} /> : <Moon size={18} />}
@@ -158,9 +159,8 @@ const App: React.FC = () => {
 
               <div className="h-8 w-[1px] bg-slate-200 dark:bg-slate-800 hidden md:block"></div>
 
-              {/* Ícone substituído pela imagem solicitada */}
-              <div className="flex items-center space-x-3 group cursor-pointer p-0.5 md:p-1 rounded-2xl transition-colors hover:bg-slate-100 dark:hover:bg-slate-800/50">
-                <div className="w-8 h-8 md:w-11 md:h-11 rounded-lg md:rounded-[1.1rem] bg-brand-navy dark:bg-slate-800 border border-slate-200 dark:border-slate-700 overflow-hidden shadow-lg">
+              <div className="flex items-center group cursor-pointer p-0.5 md:p-1 rounded-2xl transition-colors hover:bg-slate-100 dark:hover:bg-slate-800/50">
+                <div className="w-8 h-8 md:w-11 md:h-11 rounded-lg md:rounded-[1.1rem] bg-brand-navy dark:bg-slate-800 border border-slate-200 dark:border-slate-700 overflow-hidden shadow-lg transition-transform group-hover:scale-105">
                   <img src={userIcon} alt="Flyper Icon" className="w-full h-full object-cover" />
                 </div>
               </div>
@@ -171,15 +171,16 @@ const App: React.FC = () => {
         {/* View Content */}
         <div className="flex-1 p-4 md:p-10 max-w-[1600px] mx-auto w-full no-overflow-x">
           
-          {/* Cabeçalho de View - Alinhado à esquerda no Mobile/Tablet e simplificado */}
+          {/* Cabeçalho de View */}
           <div className="flex flex-col mb-8 md:mb-12 gap-4 items-start text-left">
             <div className="animate-in slide-in-from-left duration-500 flex flex-col items-start">
               <div className="flex items-center gap-2 mb-2">
                 <span className="w-8 h-[2px] bg-brand-red"></span>
                 <p className="text-[9px] md:text-[10px] font-bold text-brand-red uppercase tracking-[0.3em]">
-                  {viewTitles[currentView].toUpperCase()}
+                  {currentView === View.OVERVIEW ? 'Gestão de Viagens' : `GESTÃO DE ${viewTitles[currentView].toUpperCase()}`}
                 </p>
               </div>
+              
               <h1 className="text-2xl md:text-4xl font-bold text-slate-900 dark:text-white tracking-tight">
                 {currentView === View.OVERVIEW ? 'Visão Geral' : 
                  currentView === View.TRIPS ? 'Viagens' : 

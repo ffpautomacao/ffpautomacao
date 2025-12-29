@@ -38,15 +38,15 @@ const NPS: React.FC = () => {
             </p>
           </div>
           
-          <div className="flex flex-col items-center gap-6 w-full lg:w-auto">
-            {/* Notas NPS - Tamanho ultra reduzido no mobile para caber 0-10 sem scroll */}
-            <div className="w-full no-scrollbar pb-1">
-              <div className="flex flex-nowrap md:flex-wrap justify-center gap-1.5 md:gap-2 min-w-max md:min-w-0 px-1">
+          <div className="flex flex-col items-center gap-6 w-full lg:w-auto overflow-hidden">
+            {/* Notas NPS - Tamanho ainda mais reduzido para garantir que o 10 caiba no mobile */}
+            <div className="w-full flex justify-center">
+              <div className="flex flex-wrap md:flex-nowrap justify-center gap-1 xs:gap-1.5 md:gap-2 max-w-full">
                 {[...Array(11)].map((_, i) => (
                   <button
                     key={i}
                     onClick={() => setScore(i)}
-                    className={`w-[26px] h-[26px] xs:w-[28px] xs:h-[28px] md:w-9 md:h-9 lg:w-11 lg:h-11 rounded-lg md:rounded-xl lg:rounded-2xl text-[9px] md:text-[11px] lg:text-[12px] font-black transition-all border-2 shrink-0 ${
+                    className={`w-[23px] h-[23px] xs:w-[26px] xs:h-[26px] sm:w-[28px] sm:h-[28px] md:w-9 md:h-9 lg:w-11 lg:h-11 rounded-lg md:rounded-xl lg:rounded-2xl text-[8px] xs:text-[9px] md:text-[11px] lg:text-[12px] font-black transition-all border-2 shrink-0 ${
                       score === i 
                       ? 'bg-brand-red border-brand-red text-white glow-red scale-110' 
                       : 'bg-slate-50 dark:bg-slate-800 border-slate-100 dark:border-slate-700 text-slate-400 hover:border-brand-red/30 hover:text-brand-red'
