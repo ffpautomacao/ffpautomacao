@@ -5,7 +5,9 @@ import Sidebar from './components/Sidebar';
 import Overview from './components/Overview';
 import MilesView from './components/MilesView';
 import TripsView from './components/TripsView';
+import CardsView from './components/CardsView';
 import Login from './components/Login';
+import NPS from './components/NPS';
 import { View, ClientData } from './types';
 import { mockClientData } from './mockData';
 
@@ -72,6 +74,8 @@ const App: React.FC = () => {
         return <MilesView data={filteredData} />;
       case View.TRIPS:
         return <TripsView data={filteredData} />;
+      case View.CARDS:
+        return <CardsView data={filteredData} />;
       default:
         return (
           <div className="flex flex-col items-center justify-center min-h-[50vh] text-center p-6 space-y-6">
@@ -178,14 +182,15 @@ const App: React.FC = () => {
 
           <div className="min-h-0">
             {renderContent()}
+            <NPS />
           </div>
         </div>
 
         {/* Footer */}
-        <footer className="mt-auto px-10 py-10 text-center border-t border-slate-200 dark:border-slate-800/50">
-          <div className="flex flex-col items-center gap-4">
-            <div className="h-[2px] w-12 bg-slate-200 dark:bg-slate-800"></div>
-            <p className="text-[11px] text-slate-400 dark:text-slate-500 font-bold uppercase tracking-[0.4em] whitespace-nowrap">
+        <footer className="mt-auto px-10 py-8 text-center border-t border-slate-200 dark:border-slate-800/50">
+          <div className="flex flex-col items-center gap-3">
+            <div className="h-[1px] w-8 bg-slate-200 dark:bg-slate-800"></div>
+            <p className="text-[8px] md:text-[9px] text-slate-400 dark:text-slate-500 font-bold uppercase tracking-[0.2em] whitespace-nowrap opacity-60">
               &copy; 2026 Fly Per Points • Gestão em Viagens
             </p>
           </div>
