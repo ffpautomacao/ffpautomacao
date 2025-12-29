@@ -11,34 +11,43 @@ interface MetricCardProps {
     isUp: boolean;
   };
   icon: LucideIcon;
-  color?: string;
+  variant?: 'default' | 'highlight';
 }
 
-const MetricCard: React.FC<MetricCardProps> = ({ label, value, subValue, trend, icon: Icon, color = "amber" }) => {
-  const colorMap: any = {
-    amber: "bg-amber-100 text-amber-600",
-    blue: "bg-blue-100 text-blue-600",
-    emerald: "bg-emerald-100 text-emerald-600",
-    indigo: "bg-indigo-100 text-indigo-600"
-  };
-
+const MetricCard: React.FC<MetricCardProps> = ({ label, value, subValue, trend, icon: Icon, variant = 'default' }) => {
   return (
-    <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
+    <div className={`p-6 rounded-3xl border transition-all duration-300 ${
+      variant === 'highlight' 
+      ? 'bg-brand-red text-white border-brand-red glow-red shadow-lg shadow-brand-red/20' 
+      : 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md'
+    }`}>
       <div className="flex items-center justify-between mb-4">
-        <div className={`p-3 rounded-2xl ${colorMap[color]}`}>
-          <Icon size={24} />
+        <div className="flex items-center space-x-3">
+          <div className={`p-3 rounded-2xl ${
+            variant === 'highlight' ? 'bg-white/20' : 'bg-brand-red/10 text-brand-red'
+          }`}>
+            <Icon size={24} />
+          </div>
+          <p className={`text-[11px] font-bold uppercase tracking-widest ${
+            variant === 'highlight' ? 'text-white/80' : 'text-slate-500 dark:text-slate-400'
+          }`}>{label}</p>
         </div>
         {trend && (
-          <div className={`flex items-center space-x-1 text-sm font-medium ${trend.isUp ? 'text-emerald-500' : 'text-rose-500'}`}>
+          <div className={`flex items-center space-x-1 text-sm font-bold ${
+            variant === 'highlight' ? 'text-white' : (trend.isUp ? 'text-emerald-500' : 'text-rose-500')
+          }`}>
             <span>{trend.isUp ? '+' : '-'}{trend.value}%</span>
             {trend.isUp ? <ArrowUpRight size={16} /> : <ArrowDownRight size={16} />}
           </div>
         )}
       </div>
-      <div>
-        <p className="text-slate-500 text-xs font-medium uppercase tracking-wider mb-1">{label}</p>
-        <h3 className="text-2xl font-bold text-slate-900 mb-1">{value}</h3>
-        {subValue && <p className="text-slate-400 text-sm font-medium">{subValue}</p>}
+      <div className="pl-1">
+        <h3 className={`text-2xl font-bold mb-1 ${
+          variant === 'highlight' ? 'text-white' : 'text-slate-900 dark:text-white'
+        }`}>{value}</h3>
+        {subValue && <p className={`text-sm font-medium ${
+          variant === 'highlight' ? 'text-white/60' : 'text-slate-400'
+        }`}>{subValue}</p>}
       </div>
     </div>
   );

@@ -8,6 +8,26 @@ export enum View {
   SUPPORT = 'support'
 }
 
+export type TripStatus = 'Completed' | 'Scheduled' | 'Planned' | 'Flash';
+
+export interface Trip {
+  id: string;
+  origin: string;
+  destination: string;
+  date: string;
+  class: 'Economy' | 'Premium Economy' | 'Business' | 'First';
+  type: 'Miles' | 'Cash' | 'Mixed';
+  savings: number;
+  status: TripStatus;
+  price?: string;
+  airline?: string;
+}
+
+export interface FlashOffer extends Trip {
+  expiresAt: string;
+  link: string;
+}
+
 export interface MilesProgram {
   id: string;
   name: string;
@@ -29,26 +49,6 @@ export interface CreditCard {
   brand: 'visa' | 'mastercard' | 'amex' | 'elo';
 }
 
-export interface Trip {
-  id: string;
-  origin: string;
-  destination: string;
-  date: string;
-  class: 'Economy' | 'Premium Economy' | 'Business' | 'First';
-  type: 'Miles' | 'Cash' | 'Mixed';
-  savings: number;
-  status: 'Completed' | 'Upcoming';
-  rating?: number;
-}
-
-export interface HistoryOperation {
-  id: string;
-  date: string;
-  description: string;
-  value: string;
-  type: 'emission' | 'transfer' | 'bonus' | 'sale';
-}
-
 export interface ClientData {
   id: string;
   name: string;
@@ -59,5 +59,6 @@ export interface ClientData {
   milesPrograms: MilesProgram[];
   cards: CreditCard[];
   trips: Trip[];
-  history: HistoryOperation[];
+  flashOffers: FlashOffer[];
+  history: any[];
 }

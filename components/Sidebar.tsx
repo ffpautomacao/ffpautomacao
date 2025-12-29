@@ -1,14 +1,17 @@
 
 import React from 'react';
-import { LayoutDashboard, Plane, CreditCard, Coins, History, HelpCircle, LogOut } from 'lucide-react';
+import { LayoutDashboard, Plane, CreditCard, Coins, History, HelpCircle, LogOut, X } from 'lucide-react';
 import { View } from '../types';
 
 interface SidebarProps {
   currentView: View;
   onViewChange: (view: View) => void;
+  isDarkMode: boolean;
+  isOpen: boolean;
+  onClose: () => void;
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ currentView, onViewChange }) => {
+const Sidebar: React.FC<SidebarProps> = ({ currentView, onViewChange, isDarkMode, isOpen, onClose }) => {
   const menuItems = [
     { id: View.OVERVIEW, label: 'Visão Geral', icon: LayoutDashboard },
     { id: View.MILES, label: 'Milhas & Pontos', icon: Coins },
@@ -18,41 +21,71 @@ const Sidebar: React.FC<SidebarProps> = ({ currentView, onViewChange }) => {
     { id: View.SUPPORT, label: 'Suporte', icon: HelpCircle },
   ];
 
+  const logoLight = "https://raw.githubusercontent.com/ffpautomacao/ffpautomacao/1f83dc841cc89122814f55c8c9901e25095dbf50/Prancheta%201_6.png";
+  const logoDark = "https://raw.githubusercontent.com/ffpautomacao/ffpautomacao/8f524a38dcf2d9f61b68b60bd2046296e0e2f2dd/Prancheta%201_10.png";
+
   return (
-    <div className="w-64 h-full bg-slate-900 text-white flex flex-col fixed left-0 top-0 shadow-2xl z-50 transition-all duration-300">
-      <div className="p-8">
-        <h1 className="text-2xl font-premium tracking-tighter text-amber-500">MILEMASTER</h1>
-        <p className="text-[10px] uppercase tracking-widest text-slate-400 mt-1">Management Group</p>
-      </div>
+    <>
+      {isOpen && (
+        <div 
+          className="fixed inset-0 bg-brand-navy/60 backdrop-blur-sm z-40 lg:hidden transition-opacity"
+          onClick={onClose}
+        ></div>
+      )}
 
-      <nav className="flex-1 px-4 space-y-2">
-        {menuItems.map((item) => {
-          const Icon = item.icon;
-          const isActive = currentView === item.id;
-          return (
-            <button
-              key={item.id}
-              onClick={() => onViewChange(item.id)}
-              className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-200 ${
-                isActive 
-                  ? 'bg-amber-500 text-slate-900 font-semibold shadow-lg shadow-amber-500/20' 
-                  : 'text-slate-400 hover:bg-slate-800 hover:text-white'
-              }`}
+      <div className={`
+        fixed left-0 top-0 h-full w-72 bg-white dark:bg-brand-navy border-r border-slate-200 dark:border-slate-800 flex flex-col z-50 transition-transform duration-300 lg:translate-x-0
+        ${isOpen ? 'translate-x-0' : '-translate-x-full'}
+      `}>
+        <div className="px-6 py-4 flex flex-col items-center">
+          <div className="relative w-full flex justify-center -mb-6 -mt-4"> {/* Minimal margins around logo */}
+            <button 
+              onClick={onClose}
+              className="absolute top-2 right-0 p-2 text-slate-400 lg:hidden hover:text-brand-red transition-colors"
             >
-              <Icon size={20} />
-              <span className="text-sm">{item.label}</span>
+              <X size={24} />
             </button>
-          );
-        })}
-      </nav>
+            <img 
+              src={isDarkMode ? logoDark : logoLight} 
+              alt="Fly Per Points" 
+              className="h-64 md:h-72 w-auto object-contain"
+            />
+          </div>
+          <p className="text-[10px] font-bold tracking-[0.4em] text-brand-red uppercase opacity-80 -mt-8">Gestão Premium</p>
+        </div>
 
-      <div className="p-6 border-t border-slate-800">
-        <button className="flex items-center space-x-3 text-slate-400 hover:text-rose-400 transition-colors w-full px-4">
-          <LogOut size={20} />
-          <span className="text-sm">Sair da Conta</span>
-        </button>
+        <nav className="flex-1 px-4 space-y-2 mt-4 overflow-y-auto custom-scrollbar">
+          {menuItems.map((item) => {
+            const Icon = item.icon;
+            const isActive = currentView === item.id;
+            return (
+              <button
+                key={item.id}
+                onClick={() => {
+                  onViewChange(item.id);
+                  onClose();
+                }}
+                className={`w-full flex items-center space-x-4 px-5 py-4 rounded-2xl transition-all duration-200 group ${
+                  isActive 
+                    ? 'bg-brand-red text-white glow-red font-bold' 
+                    : 'text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800/50 hover:text-brand-red dark:hover:text-brand-red'
+                }`}
+              >
+                <Icon size={20} className={isActive ? '' : 'group-hover:scale-110 transition-transform'} />
+                <span className="text-sm font-bold">{item.label}</span>
+              </button>
+            );
+          })}
+        </nav>
+
+        <div className="p-6 border-t border-slate-200 dark:border-slate-800 bg-slate-50/30 dark:bg-transparent">
+          <button className="flex items-center space-x-3 text-slate-400 hover:text-brand-red transition-colors w-full px-4 group py-3">
+            <LogOut size={20} className="group-hover:rotate-12 transition-transform" />
+            <span className="text-sm font-bold">Sair da Conta</span>
+          </button>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

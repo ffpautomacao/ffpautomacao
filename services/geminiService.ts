@@ -2,7 +2,8 @@
 import { GoogleGenAI } from "@google/genai";
 import { ClientData } from "../types";
 
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY || '' });
+// Always use the process.env.API_KEY directly as per guidelines.
+const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 
 export const getStrategicInsights = async (data: ClientData): Promise<string> => {
   try {
@@ -29,6 +30,7 @@ export const getStrategicInsights = async (data: ClientData): Promise<string> =>
       }
     });
 
+    // Directly access the .text property of GenerateContentResponse.
     return response.text || "Continue acumulando estrategicamente para atingir sua meta.";
   } catch (error) {
     console.error("Gemini Insight Error:", error);
