@@ -31,17 +31,17 @@ interface OverviewProps {
 }
 
 const Overview: React.FC<OverviewProps> = ({ data }) => {
-  // Estado para forçar re-renderização do gráfico após o login, 
-  // garantindo que o ResponsiveContainer calcule o espaço corretamente.
-  const [isMounted, setIsMounted] = useState(false);
+  // Estado para forçar a montagem do gráfico apenas quando o container estiver estável
+  const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
-    const timer = setTimeout(() => setIsMounted(true), 100);
+    // Timeout estendido para garantir que transições de login e sidebar terminaram
+    const timer = setTimeout(() => setIsReady(true), 500);
     return () => clearTimeout(timer);
   }, []);
 
   return (
-    <div className="space-y-10 animate-in fade-in duration-1000 no-overflow-x">
+    <div className="space-y-10 animate-in fade-in duration-1000 no-overflow-x pb-10">
       {/* KPIs Superiores */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <MetricCard label="Meta de Economia" value={`R$ ${data.annualTarget.toLocaleString('pt-BR')}`} icon={Target} />
@@ -50,8 +50,8 @@ const Overview: React.FC<OverviewProps> = ({ data }) => {
         <MetricCard label="Milhas Totais" value={`${(data.totalMiles / 1000000).toFixed(1)} Mi`} icon={Wallet} />
       </div>
 
-      {/* SEÇÃO DE PERFORMANCE COMPARATIVA - CORRIGIDA E VISÍVEL */}
-      <div className="w-full bg-white dark:bg-slate-900 p-6 md:p-10 rounded-[2.5rem] border border-slate-200 dark:border-slate-800 shadow-2xl relative flex flex-col min-h-[700px]">
+      {/* SEÇÃO DE PERFORMANCE COMPARATIVA - VISIBILIDADE GARANTIDA */}
+      <div className="w-full bg-white dark:bg-slate-900 p-6 md:p-10 rounded-[2.5rem] border border-slate-200 dark:border-slate-800 shadow-2xl relative flex flex-col min-h-[650px]">
         
         {/* Cabeçalho da Seção com Filtros de Data */}
         <div className="flex flex-col lg:flex-row lg:items-center justify-between mb-12 gap-6 relative z-10">
@@ -88,7 +88,7 @@ const Overview: React.FC<OverviewProps> = ({ data }) => {
         </div>
 
         {/* Legendas Customizadas */}
-        <div className="flex items-center gap-10 mb-10 px-2">
+        <div className="flex items-center gap-10 mb-10 px-2 overflow-x-auto whitespace-nowrap pb-2">
           <div className="flex items-center gap-3">
             <div className="w-4 h-4 rounded-full bg-brand-red shadow-lg shadow-brand-red/40 border-2 border-white dark:border-slate-800"></div>
             <div className="flex flex-col">
@@ -106,9 +106,9 @@ const Overview: React.FC<OverviewProps> = ({ data }) => {
         </div>
         
         {/* ÁREA DO GRÁFICO - VISIBILIDADE FORÇADA */}
-        <div className="flex-1 w-full relative z-10 min-h-[450px]">
-          {isMounted && (
-            <ResponsiveContainer width="100%" height={450}>
+        <div className="w-full h-[450px] relative z-10">
+          {isReady ? (
+            <ResponsiveContainer width="100%" height="100%">
               <ComposedChart 
                 data={comparativeData} 
                 margin={{ top: 10, right: 10, left: 0, bottom: 20 }}
@@ -170,6 +170,11 @@ const Overview: React.FC<OverviewProps> = ({ data }) => {
                 />
               </ComposedChart>
             </ResponsiveContainer>
+          ) : (
+            <div className="w-full h-full flex flex-col items-center justify-center bg-slate-50/50 dark:bg-slate-800/10 rounded-[2rem] border-2 border-dashed border-slate-100 dark:border-slate-800">
+               <div className="w-10 h-10 border-4 border-brand-red border-t-transparent rounded-full animate-spin mb-4"></div>
+               <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Sincronizando Ativos...</p>
+            </div>
           )}
         </div>
         
