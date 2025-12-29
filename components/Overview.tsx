@@ -31,91 +31,80 @@ interface OverviewProps {
 }
 
 const Overview: React.FC<OverviewProps> = ({ data }) => {
-  // Estado para forçar a montagem do gráfico apenas quando o container estiver estável
   const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
-    // Timeout estendido para garantir que transições de login e sidebar terminaram
-    const timer = setTimeout(() => setIsReady(true), 500);
+    // Reduzi o timeout para melhorar a percepção de performance, 
+    // mas mantive o suficiente para estabilização do layout.
+    const timer = setTimeout(() => setIsReady(true), 300);
     return () => clearTimeout(timer);
   }, []);
 
   return (
-    <div className="space-y-10 animate-in fade-in duration-1000 no-overflow-x pb-10">
+    <div className="space-y-8 animate-in fade-in duration-700 no-overflow-x pb-8">
       {/* KPIs Superiores */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
         <MetricCard label="Meta de Economia" value={`R$ ${data.annualTarget.toLocaleString('pt-BR')}`} icon={Target} />
         <MetricCard label="Economia Realizada" value={`R$ ${data.realizedSavings.toLocaleString('pt-BR')}`} trend={{ value: 12.5, isUp: true }} icon={TrendingUp} variant="highlight" />
         <MetricCard label="Projeção Anual" value={`R$ ${data.projectedSavings.toLocaleString('pt-BR')}`} icon={Calculator} />
         <MetricCard label="Milhas Totais" value={`${(data.totalMiles / 1000000).toFixed(1)} Mi`} icon={Wallet} />
       </div>
 
-      {/* SEÇÃO DE PERFORMANCE COMPARATIVA - VISIBILIDADE GARANTIDA */}
-      <div className="w-full bg-white dark:bg-slate-900 p-6 md:p-10 rounded-[2.5rem] border border-slate-200 dark:border-slate-800 shadow-2xl relative flex flex-col min-h-[650px]">
+      {/* SEÇÃO DE PERFORMANCE COMPARATIVA - COMPACTA E FUNCIONAL */}
+      <div className="w-full bg-white dark:bg-slate-900 p-6 md:p-8 rounded-[2rem] border border-slate-200 dark:border-slate-800 shadow-xl relative flex flex-col min-h-[480px]">
         
-        {/* Cabeçalho da Seção com Filtros de Data */}
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between mb-12 gap-6 relative z-10">
-          <div className="space-y-2">
-            <h2 className="text-3xl font-black text-slate-900 dark:text-white tracking-tighter flex items-center gap-3">
-              <Zap className="text-brand-red fill-brand-red" size={28} />
+        {/* Cabeçalho da Seção */}
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between mb-8 gap-4 relative z-10">
+          <div className="space-y-1">
+            <h2 className="text-2xl font-black text-slate-900 dark:text-white tracking-tighter flex items-center gap-2">
+              <Zap className="text-brand-red fill-brand-red" size={24} />
               Performance Comparativa
             </h2>
-            <p className="text-xs text-slate-400 dark:text-slate-500 font-bold uppercase tracking-[0.2em]">Visão Estratégica: Gestão FPP vs. Cenário Comum</p>
+            <p className="text-[10px] text-slate-400 dark:text-slate-500 font-bold uppercase tracking-[0.2em]">Gestão FPP vs. Cenário Comum</p>
           </div>
 
-          {/* Menus Suspensos de Seleção (Mês e Ano) */}
-          <div className="flex items-center gap-4">
-            <div className="relative group">
-              <select className="appearance-none bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 pl-10 pr-10 py-3 rounded-2xl text-[11px] font-black uppercase tracking-widest text-slate-600 dark:text-slate-300 outline-none focus:ring-4 focus:ring-brand-red/5 transition-all cursor-pointer min-w-[150px]">
-                <option>Janeiro</option><option>Fevereiro</option><option>Março</option>
-                <option>Abril</option><option>Maio</option><option>Junho</option>
-                <option>Julho</option><option selected>Agosto</option>
-                <option>Setembro</option><option>Outubro</option>
+          <div className="flex items-center gap-2">
+            <div className="relative">
+              <select className="appearance-none bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 pl-8 pr-8 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest text-slate-600 dark:text-slate-300 outline-none cursor-pointer">
+                <option selected>Agosto</option>
+                <option>Setembro</option>
               </select>
-              <Calendar className="absolute left-4 top-1/2 -translate-y-1/2 text-brand-red" size={14} />
-              <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 group-hover:text-brand-red transition-colors" size={14} />
+              <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 text-brand-red" size={12} />
+              <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400" size={12} />
             </div>
-
-            <div className="relative group">
-              <select className="appearance-none bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 pl-10 pr-10 py-3 rounded-2xl text-[11px] font-black uppercase tracking-widest text-slate-600 dark:text-slate-300 outline-none focus:ring-4 focus:ring-brand-red/5 transition-all cursor-pointer min-w-[110px]">
+            <div className="relative">
+              <select className="appearance-none bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 pl-8 pr-8 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest text-slate-600 dark:text-slate-300 outline-none cursor-pointer">
                 <option selected>2024</option>
-                <option>2025</option>
               </select>
-              <Calendar className="absolute left-4 top-1/2 -translate-y-1/2 text-brand-red" size={14} />
-              <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 group-hover:text-brand-red transition-colors" size={14} />
+              <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 text-brand-red" size={12} />
+              <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400" size={12} />
             </div>
           </div>
         </div>
 
-        {/* Legendas Customizadas */}
-        <div className="flex items-center gap-10 mb-10 px-2 overflow-x-auto whitespace-nowrap pb-2">
-          <div className="flex items-center gap-3">
-            <div className="w-4 h-4 rounded-full bg-brand-red shadow-lg shadow-brand-red/40 border-2 border-white dark:border-slate-800"></div>
-            <div className="flex flex-col">
-              <span className="text-[10px] font-black uppercase tracking-widest text-slate-900 dark:text-white">Com Gestão FPP</span>
-              <span className="text-[9px] font-bold text-emerald-500 uppercase">Economia Ativa</span>
-            </div>
+        {/* Legendas */}
+        <div className="flex items-center gap-6 mb-6 px-1">
+          <div className="flex items-center gap-2">
+            <div className="w-3 h-3 rounded-full bg-brand-red"></div>
+            <span className="text-[10px] font-black uppercase tracking-widest text-slate-900 dark:text-white">FPP Ativa</span>
           </div>
-          <div className="flex items-center gap-3">
-            <div className="w-4 h-4 rounded-full bg-slate-300 dark:bg-slate-600 border-2 border-white dark:border-slate-800"></div>
-            <div className="flex flex-col">
-              <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Sem Gestão</span>
-              <span className="text-[9px] font-bold text-slate-400 uppercase">Cenário Padrão</span>
-            </div>
+          <div className="flex items-center gap-2">
+            <div className="w-3 h-3 rounded-full bg-slate-300 dark:bg-slate-600"></div>
+            <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Padrão</span>
           </div>
         </div>
         
-        {/* ÁREA DO GRÁFICO - VISIBILIDADE FORÇADA */}
-        <div className="w-full h-[450px] relative z-10">
+        {/* ÁREA DO GRÁFICO - ALTURA AJUSTADA */}
+        <div className="w-full h-[300px] relative z-10">
           {isReady ? (
-            <ResponsiveContainer width="100%" height="100%">
+            <ResponsiveContainer width="100%" height="100%" key="chart-container">
               <ComposedChart 
                 data={comparativeData} 
-                margin={{ top: 10, right: 10, left: 0, bottom: 20 }}
+                margin={{ top: 5, right: 5, left: -20, bottom: 0 }}
               >
                 <defs>
                   <linearGradient id="gradientFPP" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#E34248" stopOpacity={0.25}/>
+                    <stop offset="5%" stopColor="#E34248" stopOpacity={0.2}/>
                     <stop offset="95%" stopColor="#E34248" stopOpacity={0}/>
                   </linearGradient>
                 </defs>
@@ -124,85 +113,62 @@ const Overview: React.FC<OverviewProps> = ({ data }) => {
                   dataKey="month" 
                   axisLine={false} 
                   tickLine={false} 
-                  tick={{fontSize: 11, fill: '#94a3b8', fontWeight: 800}} 
-                  dy={15}
+                  tick={{fontSize: 10, fill: '#94a3b8', fontWeight: 700}} 
+                  dy={10}
                 />
                 <YAxis 
                   axisLine={false} 
                   tickLine={false} 
-                  tick={{fontSize: 11, fill: '#94a3b8', fontWeight: 800}} 
-                  tickFormatter={(value) => `R$ ${value/1000}k`}
+                  tick={{fontSize: 10, fill: '#94a3b8', fontWeight: 700}} 
+                  tickFormatter={(value) => `R$${value/1000}k`}
                 />
                 <Tooltip 
-                  cursor={{ stroke: '#E34248', strokeWidth: 1, strokeDasharray: '4 4' }}
                   contentStyle={{ 
-                    borderRadius: '1.5rem', 
+                    borderRadius: '1rem', 
                     border: 'none', 
                     backgroundColor: '#0E2335', 
-                    color: '#fff', 
-                    boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)',
-                    padding: '20px'
+                    boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.3)',
+                    padding: '12px'
                   }}
-                  itemStyle={{ color: '#fff', padding: '4px 0', fontSize: '13px', fontWeight: 'bold' }}
-                  labelStyle={{ marginBottom: '10px', color: '#94a3b8', fontSize: '10px', fontWeight: '900', textTransform: 'uppercase', borderBottom: '1px solid #ffffff11', paddingBottom: '8px' }}
-                  formatter={(value: any, name: string) => {
-                    const label = name === 'withFPP' ? 'Gestão Fly Per Points' : 'Sem Gestão';
-                    return [`R$ ${value.toLocaleString('pt-BR')}`, label];
-                  }}
+                  itemStyle={{ fontSize: '12px', fontWeight: '800' }}
+                  labelStyle={{ fontSize: '9px', fontWeight: '900', color: '#94a3b8', marginBottom: '4px' }}
                 />
-                <Bar 
-                  name="withoutFPP"
-                  dataKey="withoutFPP" 
-                  barSize={40} 
-                  fill="#94a3b8" 
-                  opacity={0.2} 
-                  radius={[8, 8, 0, 0]}
-                />
+                <Bar dataKey="withoutFPP" barSize={30} fill="#94a3b8" opacity={0.15} radius={[4, 4, 0, 0]} />
                 <Area 
-                  name="withFPP"
                   type="monotone" 
                   dataKey="withFPP" 
                   stroke="#E34248" 
-                  strokeWidth={5}
-                  fillOpacity={1} 
+                  strokeWidth={4}
                   fill="url(#gradientFPP)" 
-                  activeDot={{ r: 8, strokeWidth: 4, stroke: '#fff', fill: '#E34248' }}
+                  activeDot={{ r: 6, strokeWidth: 0, fill: '#E34248' }}
                 />
               </ComposedChart>
             </ResponsiveContainer>
           ) : (
-            <div className="w-full h-full flex flex-col items-center justify-center bg-slate-50/50 dark:bg-slate-800/10 rounded-[2rem] border-2 border-dashed border-slate-100 dark:border-slate-800">
-               <div className="w-10 h-10 border-4 border-brand-red border-t-transparent rounded-full animate-spin mb-4"></div>
-               <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Sincronizando Ativos...</p>
+            <div className="w-full h-full flex items-center justify-center bg-slate-50/50 dark:bg-slate-800/20 rounded-2xl">
+               <div className="w-8 h-8 border-3 border-brand-red border-t-transparent rounded-full animate-spin"></div>
             </div>
           )}
         </div>
         
-        {/* Sumário de ROI Incremental */}
-        <div className="mt-12 pt-8 border-t border-slate-100 dark:border-slate-800 flex flex-col lg:flex-row items-center justify-between gap-10">
-          <div className="flex items-center gap-8">
-            <div className="flex flex-col">
-              <span className="text-[10px] text-slate-400 font-black uppercase tracking-widest mb-1">Diferencial Estratégico</span>
-              <div className="flex items-center gap-3">
-                <p className="text-3xl font-black text-slate-900 dark:text-white">R$ 53.600</p>
-                <div className="flex items-center text-[10px] font-black text-emerald-500 bg-emerald-500/10 px-3 py-1 rounded-lg border border-emerald-500/20">
-                  <ArrowUpRight size={14} className="mr-1" /> +1.116% ROI
-                </div>
-              </div>
+        {/* Sumário */}
+        <div className="mt-8 pt-6 border-t border-slate-100 dark:border-slate-800 flex flex-wrap items-center justify-between gap-4">
+          <div className="flex items-center gap-6">
+            <div>
+              <span className="text-[9px] text-slate-400 font-black uppercase tracking-widest block mb-1">ROI Acumulado</span>
+              <p className="text-xl font-black text-slate-900 dark:text-white flex items-center gap-2">
+                R$ 53.6k <span className="text-[10px] text-emerald-500">+1.1k%</span>
+              </p>
             </div>
-            <div className="h-12 w-[1px] bg-slate-100 dark:bg-slate-800 hidden md:block"></div>
-            <div className="flex flex-col">
-              <span className="text-[10px] text-slate-400 font-black uppercase tracking-widest mb-1">Fator de Aceleração</span>
-              <p className="text-3xl font-black text-brand-red">12.1x</p>
+            <div className="h-8 w-[1px] bg-slate-100 dark:bg-slate-800"></div>
+            <div>
+              <span className="text-[9px] text-slate-400 font-black uppercase tracking-widest block mb-1">Fator</span>
+              <p className="text-xl font-black text-brand-red">12.1x</p>
             </div>
           </div>
-          
-          <div className="bg-brand-red/5 border border-brand-red/20 p-5 rounded-3xl flex items-center gap-5 max-w-md">
-            <div className="w-12 h-12 bg-brand-red text-white rounded-2xl flex items-center justify-center shrink-0 shadow-lg shadow-brand-red/20">
-              <ShieldCheck size={24} />
-            </div>
-            <p className="text-[11px] font-bold text-slate-600 dark:text-slate-300 leading-relaxed">
-              Baseado na projeção de <span className="text-brand-red font-bold">Agosto</span>, sua meta anual está <span className="text-brand-red font-bold">92% concluída</span>. A curva de crescimento acentuada reflete as emissões em classe executiva com milhas de baixo custo.
+          <div className="bg-brand-red/5 px-4 py-2 rounded-xl border border-brand-red/10">
+            <p className="text-[10px] font-bold text-slate-500 dark:text-slate-400">
+              Meta anual: <span className="text-brand-red">92% concluída</span>
             </p>
           </div>
         </div>

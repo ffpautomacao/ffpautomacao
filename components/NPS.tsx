@@ -22,42 +22,45 @@ const NPS: React.FC = () => {
   }
 
   return (
-    <div className="mt-20 mb-12 px-8 py-10 bg-white dark:bg-slate-900/60 rounded-[2.5rem] border border-slate-200 dark:border-slate-800/80 shadow-sm relative overflow-hidden group">
+    <div className="mt-20 mb-12 px-5 md:px-8 py-10 bg-white dark:bg-slate-900/60 rounded-[2.5rem] border border-slate-200 dark:border-slate-800/80 shadow-sm relative overflow-hidden group">
       {/* Decoração sutil de fundo */}
       <div className="absolute -right-20 -bottom-20 w-64 h-64 bg-slate-50 dark:bg-slate-800/20 rounded-full blur-3xl group-hover:bg-brand-red/5 transition-all duration-700"></div>
       
       <div className="flex flex-col gap-8 relative z-10">
-        <div className="flex flex-col lg:flex-row items-center justify-between gap-10">
-          <div className="text-center lg:text-left space-y-2">
+        <div className="flex flex-col md:items-center lg:flex-row lg:items-center justify-between gap-8 md:gap-10">
+          <div className="text-center md:text-center lg:text-left space-y-2">
             <div className="flex items-center justify-center lg:justify-start gap-3">
                <Star className="text-brand-red fill-brand-red" size={20} />
                <h4 className="text-lg font-black text-slate-800 dark:text-white tracking-tight">Sua Opinião Importa</h4>
             </div>
-            <p className="text-sm text-slate-500 dark:text-slate-400 font-medium max-w-sm leading-relaxed">
+            <p className="text-[13px] md:text-sm text-slate-500 dark:text-slate-400 font-medium max-w-sm leading-relaxed mx-auto lg:mx-0">
               De 0 a 10, qual a chance de você indicar a <span className="text-brand-red font-bold">Fly Per Points</span> para um conhecido?
             </p>
           </div>
           
-          <div className="flex flex-col items-center gap-6">
-            <div className="flex flex-wrap justify-center gap-2">
-              {[...Array(11)].map((_, i) => (
-                <button
-                  key={i}
-                  onClick={() => setScore(i)}
-                  className={`w-10 h-10 md:w-11 md:h-11 rounded-2xl text-[12px] font-black transition-all border-2 ${
-                    score === i 
-                    ? 'bg-brand-red border-brand-red text-white glow-red scale-110' 
-                    : 'bg-slate-50 dark:bg-slate-800 border-slate-100 dark:border-slate-700 text-slate-400 hover:border-brand-red/30 hover:text-brand-red'
-                  }`}
-                >
-                  {i}
-                </button>
-              ))}
+          <div className="flex flex-col items-center gap-6 w-full lg:w-auto">
+            {/* Notas NPS - Tamanho ultra reduzido no mobile para caber 0-10 sem scroll */}
+            <div className="w-full no-scrollbar pb-1">
+              <div className="flex flex-nowrap md:flex-wrap justify-center gap-1.5 md:gap-2 min-w-max md:min-w-0 px-1">
+                {[...Array(11)].map((_, i) => (
+                  <button
+                    key={i}
+                    onClick={() => setScore(i)}
+                    className={`w-[26px] h-[26px] xs:w-[28px] xs:h-[28px] md:w-9 md:h-9 lg:w-11 lg:h-11 rounded-lg md:rounded-xl lg:rounded-2xl text-[9px] md:text-[11px] lg:text-[12px] font-black transition-all border-2 shrink-0 ${
+                      score === i 
+                      ? 'bg-brand-red border-brand-red text-white glow-red scale-110' 
+                      : 'bg-slate-50 dark:bg-slate-800 border-slate-100 dark:border-slate-700 text-slate-400 hover:border-brand-red/30 hover:text-brand-red'
+                    }`}
+                  >
+                    {i}
+                  </button>
+                ))}
+              </div>
             </div>
             
-            <div className="flex justify-between w-full px-2 text-[10px] font-black text-slate-400 uppercase tracking-widest opacity-60">
-              <span className="flex items-center gap-1.5">🙁 Pouco Provável</span>
-              <span className="flex items-center gap-1.5">Extremamente Provável 😊</span>
+            <div className="flex justify-between w-full px-2 text-[8px] md:text-[10px] font-black text-slate-400 uppercase tracking-widest opacity-60">
+              <span className="flex items-center gap-1">🙁 Pouco</span>
+              <span className="flex items-center gap-1 text-right">Excelente 😊</span>
             </div>
           </div>
 
@@ -72,7 +75,7 @@ const NPS: React.FC = () => {
           </div>
         </div>
 
-        {/* Campo de Feedback Opcional - Aparece após selecionar uma nota */}
+        {/* Campo de Feedback Opcional */}
         {score !== null && (
           <div className="animate-in slide-in-from-top-4 duration-500 space-y-4">
             <div className="flex items-center gap-2 text-emerald-500 dark:text-emerald-400">

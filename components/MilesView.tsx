@@ -8,7 +8,6 @@ interface MilesViewProps {
 }
 
 const MilesView: React.FC<MilesViewProps> = ({ data }) => {
-  // Função para determinar o nível de urgência e estilo do alerta
   const getUrgencyStyles = (days: number) => {
     if (days <= 30) return {
       bg: 'bg-rose-50 dark:bg-rose-950/30',
@@ -44,8 +43,9 @@ const MilesView: React.FC<MilesViewProps> = ({ data }) => {
           <div key={program.id} className="bg-white dark:bg-slate-900 p-6 rounded-[2rem] border border-slate-200 dark:border-slate-800 shadow-sm transition-all hover:shadow-md flex flex-col h-full">
             <div className="flex items-center justify-between mb-8">
               <div className="flex items-center space-x-4">
-                <div className="p-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl shadow-inner">
-                  <img src={program.logo} alt={program.name} className="w-10 h-10 rounded-lg object-cover" />
+                {/* Imagem ocupando a área total do container */}
+                <div className="w-14 h-14 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl shadow-inner overflow-hidden shrink-0">
+                  <img src={program.logo} alt={program.name} className="w-full h-full object-cover" />
                 </div>
                 <div>
                   <h3 className="font-bold text-lg text-slate-900 dark:text-white leading-tight">{program.name}</h3>
@@ -62,7 +62,6 @@ const MilesView: React.FC<MilesViewProps> = ({ data }) => {
               <p className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] px-1">Alertas de Vencimento</p>
               
               {program.expiring.some(e => e.amount > 0) ? (
-                // Ordenar por dias para priorizar os que vencem antes
                 [...program.expiring]
                   .filter(e => e.amount > 0)
                   .sort((a, b) => a.days - b.days)
@@ -107,8 +106,8 @@ const MilesView: React.FC<MilesViewProps> = ({ data }) => {
         ))}
       </div>
 
-      {/* Seção Inferior: Histórico e Simulador */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      {/* Histórico ocupando área completa agora que o Simulador foi removido */}
+      <div className="w-full">
         <div className="bg-white dark:bg-slate-900 p-8 rounded-[2rem] border border-slate-200 dark:border-slate-800 shadow-sm">
           <div className="flex items-center justify-between mb-8">
             <div className="flex items-center space-x-3">
@@ -122,9 +121,9 @@ const MilesView: React.FC<MilesViewProps> = ({ data }) => {
             </div>
           </div>
           
-          <div className="space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6">
             {data.history.length > 0 ? data.history.map((item) => (
-              <div key={item.id} className="flex items-center justify-between group p-3 hover:bg-slate-50 dark:hover:bg-slate-800/40 rounded-2xl transition-all cursor-default">
+              <div key={item.id} className="flex items-center justify-between group p-3 hover:bg-slate-50 dark:hover:bg-slate-800/40 rounded-2xl transition-all cursor-default border-b border-slate-50 dark:border-slate-800 md:border-none">
                 <div className="flex items-center space-x-5">
                   <div className={`p-3 rounded-xl transition-all group-hover:scale-110 ${
                     item.type === 'transfer' ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400' : 
@@ -147,39 +146,10 @@ const MilesView: React.FC<MilesViewProps> = ({ data }) => {
                 </div>
               </div>
             )) : (
-              <div className="flex flex-col items-center justify-center py-12 border-2 border-dashed border-slate-100 dark:border-slate-800 rounded-3xl">
+              <div className="col-span-full flex flex-col items-center justify-center py-12 border-2 border-dashed border-slate-100 dark:border-slate-800 rounded-3xl">
                 <p className="text-slate-400 text-sm font-bold uppercase tracking-widest italic opacity-50">Nenhuma movimentação</p>
               </div>
             )}
-          </div>
-        </div>
-
-        {/* Simulador Estratégico */}
-        <div className="bg-slate-900 dark:bg-slate-950 p-10 rounded-[2rem] border border-slate-800 relative overflow-hidden group">
-          {/* Decoração de Fundo */}
-          <div className="absolute top-0 right-0 w-64 h-64 bg-brand-red/10 rounded-full -translate-y-1/2 translate-x-1/2 blur-3xl group-hover:bg-brand-red/20 transition-all duration-700"></div>
-          
-          <div className="relative z-10 flex flex-col h-full items-center justify-center text-center">
-            <div className="w-20 h-20 bg-brand-red text-white rounded-[2rem] flex items-center justify-center shadow-2xl shadow-brand-red/40 mb-8 animate-bounce-slow glow-red">
-              <Zap size={32} />
-            </div>
-            <h3 className="text-2xl font-bold text-white mb-4 tracking-tight">Potencialize seus Ativos</h3>
-            <p className="text-slate-400 max-w-sm mb-10 leading-relaxed font-medium">
-              Nosso algoritmo analisa campanhas históricas para sugerir o <span className="text-brand-red font-bold">momento exato</span> de transferir seus pontos com até 120% de bônus.
-            </p>
-            <div className="grid grid-cols-2 gap-4 w-full mb-10">
-              <div className="bg-white/5 border border-white/10 p-4 rounded-2xl">
-                <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest mb-1">Último Bônus</p>
-                <p className="text-xl font-bold text-white">100%</p>
-              </div>
-              <div className="bg-white/5 border border-white/10 p-4 rounded-2xl">
-                <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest mb-1">Previsão</p>
-                <p className="text-xl font-bold text-emerald-500">Alta</p>
-              </div>
-            </div>
-            <button className="w-full py-5 bg-white text-slate-900 hover:bg-slate-100 text-sm font-black rounded-2xl transition-all active:scale-95 shadow-xl uppercase tracking-widest">
-              Consultar Inteligência
-            </button>
           </div>
         </div>
       </div>
