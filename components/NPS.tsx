@@ -39,7 +39,7 @@ const NPS: React.FC = () => {
           </div>
           
           <div className="flex flex-col items-center gap-6 w-full lg:w-auto overflow-hidden">
-            {/* Notas NPS - Tamanho ainda mais reduzido para garantir que o 10 caiba no mobile */}
+            {/* Notas NPS */}
             <div className="w-full flex justify-center">
               <div className="flex flex-wrap md:flex-nowrap justify-center gap-1 xs:gap-1.5 md:gap-2 max-w-full">
                 {[...Array(11)].map((_, i) => (
@@ -68,7 +68,7 @@ const NPS: React.FC = () => {
             <button 
               disabled={score === null}
               onClick={() => setSubmitted(true)}
-              className="px-10 py-5 bg-slate-900 dark:bg-white dark:text-slate-900 text-white rounded-2xl font-black text-xs uppercase tracking-[0.2em] shadow-xl disabled:opacity-30 disabled:grayscale transition-all hover:scale-105 active:scale-95 flex items-center justify-center gap-3"
+              className="px-10 py-5 bg-brand-navy text-emerald-400 border border-emerald-500/20 rounded-2xl font-black text-xs uppercase tracking-[0.2em] shadow-xl disabled:opacity-30 disabled:grayscale transition-all hover:scale-105 active:scale-95 flex items-center justify-center gap-3"
             >
               ENVIAR <Send size={18} />
             </button>
@@ -80,18 +80,17 @@ const NPS: React.FC = () => {
           <div className="animate-in slide-in-from-top-4 duration-500 space-y-4">
             <div className="flex items-center gap-2 text-emerald-500 dark:text-emerald-400">
               <MessageSquare size={16} className="fill-emerald-500/10" />
-              <span className="text-[10px] font-black uppercase tracking-widest">Feedback Adicional (Opcional)</span>
+              <span className="text-[10px] font-black uppercase tracking-widest">Deixe um feedback (opcional)</span>
             </div>
             <textarea
               value={feedback}
               onChange={(e) => setFeedback(e.target.value)}
-              placeholder="Quer deixar algum feedback?"
               className="w-full p-6 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-3xl outline-none focus:border-emerald-500/30 focus:bg-white dark:focus:bg-slate-800 transition-all text-sm font-medium text-slate-700 dark:text-slate-200 min-h-[100px] resize-none"
             ></textarea>
             <div className="lg:hidden">
               <button 
                 onClick={() => setSubmitted(true)}
-                className="w-full py-5 bg-slate-900 dark:bg-white dark:text-slate-900 text-white rounded-2xl font-black text-xs uppercase tracking-[0.2em] shadow-xl transition-all flex items-center justify-center gap-3"
+                className="w-full py-5 bg-brand-navy text-emerald-400 border border-emerald-500/20 rounded-2xl font-black text-xs uppercase tracking-[0.2em] shadow-xl transition-all flex items-center justify-center gap-3"
               >
                 ENVIAR <Send size={18} />
               </button>
