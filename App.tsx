@@ -24,6 +24,15 @@ const App: React.FC = () => {
     }
   }, [isDarkMode]);
 
+  const viewTitles: Record<View, string> = {
+    [View.OVERVIEW]: 'Visão Geral',
+    [View.MILES]: 'Milhas & Pontos',
+    [View.CARDS]: 'Cartões',
+    [View.TRIPS]: 'Viagens',
+    [View.HISTORY]: 'Histórico',
+    [View.SUPPORT]: 'Suporte'
+  };
+
   const filteredData = useMemo(() => {
     if (!searchTerm.trim()) return mockClientData;
     
@@ -128,7 +137,7 @@ const App: React.FC = () => {
               <button 
                 onClick={() => setIsDarkMode(!isDarkMode)}
                 className="p-3 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-2xl transition-all"
-                aria-label="Toggle Theme"
+                aria-label="Alternar Tema"
               >
                 {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
               </button>
@@ -156,13 +165,13 @@ const App: React.FC = () => {
               <div className="flex items-center gap-2 mb-2">
                 <span className="w-8 h-[2px] bg-brand-red"></span>
                 <p className="text-[10px] font-bold text-brand-red uppercase tracking-[0.3em]">
-                  {currentView.toUpperCase()} MANAGEMENT
+                  GESTÃO DE {viewTitles[currentView].toUpperCase()}
                 </p>
               </div>
               <h1 className="text-4xl font-bold text-slate-900 dark:text-white tracking-tight">
                 {currentView === View.OVERVIEW ? 'Visão Executiva' : 
                  currentView === View.TRIPS ? 'Meus Itinerários' : 
-                 currentView === View.MILES ? 'Ativos de Fidelidade' : 'Gestão'}
+                 currentView === View.MILES ? 'Ativos de Fidelidade' : viewTitles[currentView]}
               </h1>
             </div>
           </div>

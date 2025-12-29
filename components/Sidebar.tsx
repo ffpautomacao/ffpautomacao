@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { LayoutDashboard, Plane, CreditCard, Coins, History, HelpCircle, LogOut, X } from 'lucide-react';
 import { View } from '../types';
@@ -21,8 +20,8 @@ const Sidebar: React.FC<SidebarProps> = ({ currentView, onViewChange, isDarkMode
     { id: View.SUPPORT, label: 'Suporte', icon: HelpCircle },
   ];
 
-  const logoLight = "https://raw.githubusercontent.com/ffpautomacao/ffpautomacao/1f83dc841cc89122814f55c8c9901e25095dbf50/Prancheta%201_6.png";
-  const logoDark = "https://raw.githubusercontent.com/ffpautomacao/ffpautomacao/8f524a38dcf2d9f61b68b60bd2046296e0e2f2dd/Prancheta%201_10.png";
+  const logoLight = "https://raw.githubusercontent.com/ffpautomacao/ffpautomacao/fbd05d8cf9e69e8980904af8505adfdf15d9bf07/Light.png";
+  const logoDark = "https://raw.githubusercontent.com/ffpautomacao/ffpautomacao/fbd05d8cf9e69e8980904af8505adfdf15d9bf07/Black.png";
 
   return (
     <>
@@ -37,24 +36,24 @@ const Sidebar: React.FC<SidebarProps> = ({ currentView, onViewChange, isDarkMode
         fixed left-0 top-0 h-full w-72 bg-white dark:bg-brand-navy border-r border-slate-200 dark:border-slate-800 flex flex-col z-50 transition-transform duration-300 lg:translate-x-0
         ${isOpen ? 'translate-x-0' : '-translate-x-full'}
       `}>
-        <div className="px-6 py-4 flex flex-col items-center">
-          <div className="relative w-full flex justify-center -mb-6 -mt-4"> {/* Minimal margins around logo */}
+        <div className="px-6 py-2 flex flex-col items-center">
+          <div className="relative w-full flex justify-center -mb-8 -mt-6"> {/* Minimized margins around logo */}
             <button 
               onClick={onClose}
-              className="absolute top-2 right-0 p-2 text-slate-400 lg:hidden hover:text-brand-red transition-colors"
+              className="absolute top-6 right-0 p-2 text-slate-400 lg:hidden hover:text-brand-red transition-colors"
             >
               <X size={24} />
             </button>
             <img 
               src={isDarkMode ? logoDark : logoLight} 
               alt="Fly Per Points" 
-              className="h-64 md:h-72 w-auto object-contain"
+              className="h-72 md:h-80 w-auto object-contain transition-transform"
             />
           </div>
-          <p className="text-[10px] font-bold tracking-[0.4em] text-brand-red uppercase opacity-80 -mt-8">Gestão Premium</p>
+          <p className="text-[10px] font-bold tracking-[0.4em] text-brand-red uppercase opacity-80 -mt-10">Gestão Premium</p>
         </div>
 
-        <nav className="flex-1 px-4 space-y-2 mt-4 overflow-y-auto custom-scrollbar">
+        <nav className="flex-1 px-4 space-y-2 mt-2 overflow-y-auto custom-scrollbar">
           {menuItems.map((item) => {
             const Icon = item.icon;
             const isActive = currentView === item.id;
