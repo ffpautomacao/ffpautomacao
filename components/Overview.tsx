@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { TrendingUp, Target, Calculator, Wallet, ArrowUpRight, ShieldCheck, Zap, ChevronDown, Calendar } from 'lucide-react';
 import { ClientData } from '../types';
 import MetricCard from './MetricCard';
@@ -14,7 +14,7 @@ import {
   ResponsiveContainer
 } from 'recharts';
 
-// Dados simulados para visualização estática (Meses relativos)
+// Dados simulados para visualização estática (Performance Mensal)
 const comparativeData = [
   { month: 'Jan', withFPP: 4500, withoutFPP: 1100 },
   { month: 'Fev', withFPP: 7800, withoutFPP: 1400 },
@@ -31,6 +31,15 @@ interface OverviewProps {
 }
 
 const Overview: React.FC<OverviewProps> = ({ data }) => {
+  // Estado para forçar re-renderização do gráfico após o login, 
+  // garantindo que o ResponsiveContainer calcule o espaço corretamente.
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setIsMounted(true), 100);
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <div className="space-y-10 animate-in fade-in duration-1000 no-overflow-x">
       {/* KPIs Superiores */}
@@ -41,8 +50,8 @@ const Overview: React.FC<OverviewProps> = ({ data }) => {
         <MetricCard label="Milhas Totais" value={`${(data.totalMiles / 1000000).toFixed(1)} Mi`} icon={Wallet} />
       </div>
 
-      {/* SEÇÃO DE PERFORMANCE COMPARATIVA - VISUAL PARA TESTE */}
-      <div className="w-full bg-white dark:bg-slate-900 p-6 md:p-10 rounded-[2.5rem] border border-slate-200 dark:border-slate-800 shadow-2xl relative flex flex-col min-h-[680px]">
+      {/* SEÇÃO DE PERFORMANCE COMPARATIVA - CORRIGIDA E VISÍVEL */}
+      <div className="w-full bg-white dark:bg-slate-900 p-6 md:p-10 rounded-[2.5rem] border border-slate-200 dark:border-slate-800 shadow-2xl relative flex flex-col min-h-[700px]">
         
         {/* Cabeçalho da Seção com Filtros de Data */}
         <div className="flex flex-col lg:flex-row lg:items-center justify-between mb-12 gap-6 relative z-10">
@@ -58,18 +67,10 @@ const Overview: React.FC<OverviewProps> = ({ data }) => {
           <div className="flex items-center gap-4">
             <div className="relative group">
               <select className="appearance-none bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 pl-10 pr-10 py-3 rounded-2xl text-[11px] font-black uppercase tracking-widest text-slate-600 dark:text-slate-300 outline-none focus:ring-4 focus:ring-brand-red/5 transition-all cursor-pointer min-w-[150px]">
-                <option>Janeiro</option>
-                <option>Fevereiro</option>
-                <option>Março</option>
-                <option>Abril</option>
-                <option>Maio</option>
-                <option>Junho</option>
-                <option>Julho</option>
-                <option selected>Agosto</option>
-                <option>Setembro</option>
-                <option>Outubro</option>
-                <option>Novembro</option>
-                <option>Dezembro</option>
+                <option>Janeiro</option><option>Fevereiro</option><option>Março</option>
+                <option>Abril</option><option>Maio</option><option>Junho</option>
+                <option>Julho</option><option selected>Agosto</option>
+                <option>Setembro</option><option>Outubro</option>
               </select>
               <Calendar className="absolute left-4 top-1/2 -translate-y-1/2 text-brand-red" size={14} />
               <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 group-hover:text-brand-red transition-colors" size={14} />
@@ -77,7 +78,6 @@ const Overview: React.FC<OverviewProps> = ({ data }) => {
 
             <div className="relative group">
               <select className="appearance-none bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 pl-10 pr-10 py-3 rounded-2xl text-[11px] font-black uppercase tracking-widest text-slate-600 dark:text-slate-300 outline-none focus:ring-4 focus:ring-brand-red/5 transition-all cursor-pointer min-w-[110px]">
-                <option>2023</option>
                 <option selected>2024</option>
                 <option>2025</option>
               </select>
@@ -88,7 +88,7 @@ const Overview: React.FC<OverviewProps> = ({ data }) => {
         </div>
 
         {/* Legendas Customizadas */}
-        <div className="flex items-center gap-10 mb-10 px-2 overflow-x-auto whitespace-nowrap pb-2 lg:pb-0">
+        <div className="flex items-center gap-10 mb-10 px-2">
           <div className="flex items-center gap-3">
             <div className="w-4 h-4 rounded-full bg-brand-red shadow-lg shadow-brand-red/40 border-2 border-white dark:border-slate-800"></div>
             <div className="flex flex-col">
@@ -105,76 +105,72 @@ const Overview: React.FC<OverviewProps> = ({ data }) => {
           </div>
         </div>
         
-        {/* ÁREA DO GRÁFICO - ALTURA FIXA E VISIBILIDADE FORÇADA */}
-        <div className="flex-1 w-full relative z-10" style={{ height: '450px', minHeight: '450px' }}>
-          <ResponsiveContainer width="100%" height="100%">
-            <ComposedChart 
-              data={comparativeData} 
-              margin={{ top: 10, right: 10, left: 0, bottom: 20 }}
-            >
-              <defs>
-                <linearGradient id="gradientFPP" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#E34248" stopOpacity={0.25}/>
-                  <stop offset="95%" stopColor="#E34248" stopOpacity={0}/>
-                </linearGradient>
-              </defs>
-              <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#94a3b815" />
-              <XAxis 
-                dataKey="month" 
-                axisLine={false} 
-                tickLine={false} 
-                tick={{fontSize: 11, fill: '#94a3b8', fontWeight: 800}} 
-                dy={15}
-              />
-              <YAxis 
-                axisLine={false} 
-                tickLine={false} 
-                tick={{fontSize: 11, fill: '#94a3b8', fontWeight: 800}} 
-                tickFormatter={(value) => `R$ ${value/1000}k`}
-              />
-              <Tooltip 
-                cursor={{ stroke: '#E34248', strokeWidth: 1, strokeDasharray: '4 4' }}
-                contentStyle={{ 
-                  borderRadius: '1.5rem', 
-                  border: 'none', 
-                  backgroundColor: '#0E2335', 
-                  color: '#fff', 
-                  boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)',
-                  padding: '20px'
-                }}
-                itemStyle={{ color: '#fff', padding: '4px 0', fontSize: '13px', fontWeight: 'bold' }}
-                labelStyle={{ marginBottom: '10px', color: '#94a3b8', fontSize: '10px', fontWeight: '900', textTransform: 'uppercase', borderBottom: '1px solid #ffffff11', paddingBottom: '8px' }}
-                formatter={(value: any, name: string) => {
-                  const label = name === 'withFPP' ? 'Gestão Fly Per Points' : 'Sem Gestão Estratégica';
-                  return [`R$ ${value.toLocaleString('pt-BR')}`, label];
-                }}
-              />
-              
-              {/* Barras: Sem Gestão (Cenário de Perda de Oportunidade) */}
-              <Bar 
-                name="withoutFPP"
-                dataKey="withoutFPP" 
-                barSize={40} 
-                fill="#94a3b8" 
-                opacity={0.2} 
-                radius={[8, 8, 0, 0]}
-                animationDuration={1500}
-              />
-
-              {/* Área Premium: Com Gestão FPP (Economia Real) */}
-              <Area 
-                name="withFPP"
-                type="monotone" 
-                dataKey="withFPP" 
-                stroke="#E34248" 
-                strokeWidth={5}
-                fillOpacity={1} 
-                fill="url(#gradientFPP)" 
-                animationDuration={2500}
-                activeDot={{ r: 8, strokeWidth: 4, stroke: '#fff', fill: '#E34248' }}
-              />
-            </ComposedChart>
-          </ResponsiveContainer>
+        {/* ÁREA DO GRÁFICO - VISIBILIDADE FORÇADA */}
+        <div className="flex-1 w-full relative z-10 min-h-[450px]">
+          {isMounted && (
+            <ResponsiveContainer width="100%" height={450}>
+              <ComposedChart 
+                data={comparativeData} 
+                margin={{ top: 10, right: 10, left: 0, bottom: 20 }}
+              >
+                <defs>
+                  <linearGradient id="gradientFPP" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="#E34248" stopOpacity={0.25}/>
+                    <stop offset="95%" stopColor="#E34248" stopOpacity={0}/>
+                  </linearGradient>
+                </defs>
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#94a3b815" />
+                <XAxis 
+                  dataKey="month" 
+                  axisLine={false} 
+                  tickLine={false} 
+                  tick={{fontSize: 11, fill: '#94a3b8', fontWeight: 800}} 
+                  dy={15}
+                />
+                <YAxis 
+                  axisLine={false} 
+                  tickLine={false} 
+                  tick={{fontSize: 11, fill: '#94a3b8', fontWeight: 800}} 
+                  tickFormatter={(value) => `R$ ${value/1000}k`}
+                />
+                <Tooltip 
+                  cursor={{ stroke: '#E34248', strokeWidth: 1, strokeDasharray: '4 4' }}
+                  contentStyle={{ 
+                    borderRadius: '1.5rem', 
+                    border: 'none', 
+                    backgroundColor: '#0E2335', 
+                    color: '#fff', 
+                    boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)',
+                    padding: '20px'
+                  }}
+                  itemStyle={{ color: '#fff', padding: '4px 0', fontSize: '13px', fontWeight: 'bold' }}
+                  labelStyle={{ marginBottom: '10px', color: '#94a3b8', fontSize: '10px', fontWeight: '900', textTransform: 'uppercase', borderBottom: '1px solid #ffffff11', paddingBottom: '8px' }}
+                  formatter={(value: any, name: string) => {
+                    const label = name === 'withFPP' ? 'Gestão Fly Per Points' : 'Sem Gestão';
+                    return [`R$ ${value.toLocaleString('pt-BR')}`, label];
+                  }}
+                />
+                <Bar 
+                  name="withoutFPP"
+                  dataKey="withoutFPP" 
+                  barSize={40} 
+                  fill="#94a3b8" 
+                  opacity={0.2} 
+                  radius={[8, 8, 0, 0]}
+                />
+                <Area 
+                  name="withFPP"
+                  type="monotone" 
+                  dataKey="withFPP" 
+                  stroke="#E34248" 
+                  strokeWidth={5}
+                  fillOpacity={1} 
+                  fill="url(#gradientFPP)" 
+                  activeDot={{ r: 8, strokeWidth: 4, stroke: '#fff', fill: '#E34248' }}
+                />
+              </ComposedChart>
+            </ResponsiveContainer>
+          )}
         </div>
         
         {/* Sumário de ROI Incremental */}
@@ -201,7 +197,7 @@ const Overview: React.FC<OverviewProps> = ({ data }) => {
               <ShieldCheck size={24} />
             </div>
             <p className="text-[11px] font-bold text-slate-600 dark:text-slate-300 leading-relaxed">
-              Baseado na projeção de <span className="text-brand-red">Agosto</span>, sua meta anual está <span className="text-brand-red">92% concluída</span>. A curva de crescimento acentuada reflete as emissões em classe executiva com milhas de baixo custo.
+              Baseado na projeção de <span className="text-brand-red font-bold">Agosto</span>, sua meta anual está <span className="text-brand-red font-bold">92% concluída</span>. A curva de crescimento acentuada reflete as emissões em classe executiva com milhas de baixo custo.
             </p>
           </div>
         </div>
